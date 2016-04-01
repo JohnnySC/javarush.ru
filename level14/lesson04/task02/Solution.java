@@ -1,0 +1,109 @@
+package com.javarush.test.level14.lesson04.task02;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+/* Коты
+1. Считывать строки(параметры) с консоли, пока пользователь не введет пустую строку(Enter).
+2. Каждый параметр соответствует имени кота.
+Для каждого параметра:
+3. Создать объект cat класса Cat, который равен коту из getCatByKey(String параметр).
+4. Вывести на экран cat.toString().
+*/
+
+public class Solution
+{
+    public static void main(String[] args) throws Exception
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        while (true)
+        {
+            String s= reader.readLine();
+            if(s.equals(""))
+                break;
+            else
+            {
+                Cat cat = new Cat("cat");
+                cat = cat.getCatByKey(s);
+                System.out.println(cat.toString());
+            }
+        }
+
+
+    }
+
+
+
+    static class CatFactory //this is a parent class
+    {
+        static public Cat getCatByKey(String key)// this is a method, get string and return Cat
+        {
+            Cat cat = null;              //creating new Cat
+            if ("vaska".equals(key))
+            {
+                cat = new MaleCat("Василий");
+            }
+            else if ("murka".equals(key))
+            {
+                cat = new FemaleCat("Мурочка");
+            }
+            else if ("kiska".equals(key))
+            {
+                cat = new FemaleCat("Кисюлька");
+            }
+            else
+            {
+                cat = new Cat(key);
+            }
+
+            return cat;
+        }
+    }
+
+    static class Cat  extends CatFactory
+    {
+        private String name;
+
+        protected Cat(String name)
+        {
+            this.name = name;
+        }
+
+        public String getName()
+        {
+            return this.name;
+        }
+
+        public String toString()
+        {
+            return "Я уличный кот " + getName();
+        }
+    }
+
+    static class MaleCat extends Cat
+    {
+        MaleCat(String name)
+        {
+            super(name);
+        }
+
+        public String toString()
+        {
+            return "Я - солидный кошак по имени " + getName();
+        }
+    }
+
+    static class FemaleCat extends Cat
+    {
+        FemaleCat(String name)
+        {
+            super(name);
+        }
+
+        public String toString()
+        {
+            return "Я - милая кошечка по имени " + getName();
+        }
+    }
+}
